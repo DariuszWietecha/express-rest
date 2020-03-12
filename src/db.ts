@@ -14,4 +14,5 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-export default new AWS.DynamoDB.DocumentClient({ endpoint: process.env.DYNAMODB_URL });
+export const DynamoDBDocumentClient = new AWS.DynamoDB.DocumentClient({ endpoint: process.env.DYNAMODB_URL });
+export const DynamoDB = new AWS.DynamoDB({ endpoint: process.env.DYNAMODB_URL });

@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import * as express from "express";
+import express from "express";
 import { v1 as uuidv1 } from "uuid";
 
 export interface ICategoryInput {
@@ -13,7 +13,28 @@ export interface ICategory extends ICategoryInput, AWS.DynamoDB.DocumentClient.A
 const TableName = "categories";
 
 export async function get(
-  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, req: express.Request): Promise<ICategory[] | undefined> {
+  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, id: string): Promise<ICategory | undefined> {
+  return new Promise((
+    resolve: (company: ICategory | undefined) => void, reject) => {
+    const params = {
+      TableName,
+      Key: {
+        id
+      }
+    };
+
+    dynamoDBDocumentClient.get(params, (error, data) => {
+      if (error) {
+        reject(error);
+      }
+
+      resolve(data.Item as ICategory | undefined);
+    });
+  });
+}
+
+export async function list(
+  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, id?: string): Promise<ICategory[] | undefined> {
   return new Promise((
     resolve: (categories: ICategory[] | undefined) => void, reject) => {
     let params = {
@@ -21,13 +42,13 @@ export async function get(
     };
     let method: "scan" | "query" = "scan";
 
-    if (req?.params.hasOwnProperty("id")) {
+    if (id) {
       method ="query";
       params = {
         ...params,
         ...{
           ExpressionAttributeValues: {
-            ":id": req.params.id,
+            ":id": id,
           },
           KeyConditionExpression: "id = :id",
         },
@@ -68,15 +89,10 @@ export async function get(
 // }
 
 export async function put(
-  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, req: express.Request)
+  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, Item: ICategory)
   : Promise<ICategory> {
   return new Promise((
     resolve: (categories: ICategory) => void, reject) => {
-    const Item = { ...req.body }
-    if (!Item.hasOwnProperty("id")) {
-      Item.id = uuidv1();
-    }
-
     const params = {
       Item,
       TableName,
