@@ -1,0 +1,44 @@
+{
+  "name": "express-rest-dynamodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "mocha": {
+    "require": "ts-node/register",
+    "reporter": "spec",
+    "recursive": true,
+    "checkLeaks": true,
+    "exit": true,
+    "spec": "test/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:DariuszWietecha/express-rest-dynamodb.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "tsc",
+    "startLocalStack": "docker-compose -f ./test/docker-compose.yml up -d",
+    "stopLocalStack": "docker-compose -f ./test/docker-compose.yml down",
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "author": "Dariusz Wietecha",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.636.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.3",
+    "@types/mocha": "^7.0.2",
+    "@types/uuid": "^7.0.0",
+    "mocha": "^7.1.0",
+    "nock": "^12.0.2",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "typescript": "^3.8.3"
+  }
+}
