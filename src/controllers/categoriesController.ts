@@ -1,21 +1,19 @@
-import * as AWS from "aws-sdk";
 import express from "express";
 import * as categoriesModel from "../models/categoriesModel";
 import { v1 as uuidv1 } from "uuid";
 
-export async function get(
-  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, req: express.Request): Promise<categoriesModel.ICategory | categoriesModel.ICategory[] | undefined> {
+export function get(req: express.Request): categoriesModel.ICategory | categoriesModel.ICategory[] | undefined {
   if (req.params.hasOwnProperty("id")) {
-    return categoriesModel.get(dynamoDBDocumentClient, req.params.id);
+    return categoriesModel.get(req.params.id);
   }
-  return categoriesModel.list(dynamoDBDocumentClient, req.query.categoryId)
+  return categoriesModel.list()
 }
 
-export async function put(
-  dynamoDBDocumentClient: AWS.DynamoDB.DocumentClient, req: express.Request): Promise<categoriesModel.ICategory> {
+export function put(req: express.Request): categoriesModel.ICategory {
   const Item = { ...req.body }
   if (!Item.hasOwnProperty("id")) {
     Item.id = uuidv1();
+    return categoriesModel.create(Item);
   }
-  return categoriesModel.put(dynamoDBDocumentClient, Item);
+  return categoriesModel.update(Item);
 }
