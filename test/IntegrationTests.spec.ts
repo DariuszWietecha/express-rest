@@ -1,32 +1,8 @@
 import { expect } from "chai";
 import request from "supertest";
-import { categories, companies } from "../src/db";
 
 describe("integration tests", () => {
   const req = request("http://localhost:3000");
-
-  // function clearTables(): void {
-  //   const companiess = companies.list();
-  //   console.log("------------companiess", companiess)
-  //   companiess.map((item) => {
-  //     console.log("------------item", item)
-  //     companies.delete(item.id)
-  //     const constGetitem = companies.get(item.id)
-  //     console.log("------------constGetitem", constGetitem)
-  //   })
-  //   // companies.list().map((item) => companies.delete(item.id))
-  //   categories.list().map((item) => categories.delete(item.id))
-  // }
-
-  // before(() => {
-  //   const companiess = companies.list();
-  //   console.log("------------companiess", companiess)
-  //   // clearTables();
-  // });
-
-  // after(() => {
-  //   // clearTables();
-  // });
 
   it("success", async () => {
     // Create new company
