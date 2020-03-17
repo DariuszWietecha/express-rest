@@ -1,30 +1,23 @@
-import { companies } from "../db";
+import * as db from "../db";
 
-export interface ICompany {
-  id: string;
-  name: string;
-  logoUrl: string;
-  email: string;
-  categories: string[];
+export function get(id: string): db.ICompany | undefined {
+  return db.companies.get(id);
 }
 
-export function get(id: string): ICompany | undefined {
-  return companies.get(id);
-}
-
-export function list(categoryId?: string): ICompany[] | undefined {
+export function list(categoryId?: string): db.ICompany[] | undefined {
   if (categoryId) {
-    return companies.list().filter((item) => Array.isArray(item.categories) && item.categories.indexOf(categoryId) !== -1);
+    return db.companies.list().filter((item) => Array.isArray(item.categories) &&
+                                                item.categories.find((category) => category.id === categoryId));
   }
-  return companies.list();
+  return db.companies.list();
 }
 
-export function create(Item: ICompany): ICompany {
-  const campanyId = companies.create(Item);
-  return companies.get(campanyId);
+export function create(Item: db.ICompany): db.ICompany {
+  const campanyId = db.companies.create(Item);
+  return db.companies.get(campanyId);
 }
 
-export function update(Item: ICompany): ICompany {
-  companies.update(Item);
-  return companies.get(Item.id);
+export function update(Item: db.ICompany): db.ICompany {
+  db.companies.update(Item);
+  return db.companies.get(Item.id);
 }

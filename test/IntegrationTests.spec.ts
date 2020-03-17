@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import * as db from "../src/db";
 import request from "supertest";
 
 describe("integration tests", () => {
@@ -70,11 +71,14 @@ describe("integration tests", () => {
     expect(responseData.name).to.be.eq(updatedCategoryInput.name);
 
     // Associate a category to a company
-    responseData = await req.put(`/companies/${updatedCompanyInput.id}/associate/${updatedCategoryInput.id}`)
+    const associateResponseData: db.ICompany = await req.put(`/companies/${updatedCompanyInput.id}/associate/${updatedCategoryInput.id}`)
       .expect(200)
       .then((res) => res.body);
 
-    expect(responseData.categories).to.contain(updatedCategoryInput.id);
+    const associatedCategory = associateResponseData.categories.find((category) => category.id === updatedCategoryInput.id);
+    if (typeof associatedCategory !== "undefined") {
+      expect(associatedCategory.id).to.eq(updatedCategoryInput.id);
+    }
 
     // View
     await req.post("/categories")

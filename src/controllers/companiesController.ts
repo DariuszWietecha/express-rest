@@ -1,9 +1,10 @@
 import express from "express";
 import * as companiesModel from "../models/companiesModel";
 import * as categoriesModel from "../models/categoriesModel";
+import * as db from "../db";
 import { v1 as uuidv1 } from "uuid";
 
-export function get(req: express.Request): companiesModel.ICompany | companiesModel.ICompany[] | undefined {
+export function get(req: express.Request): db.ICompany | db.ICompany[] | undefined {
   if (req.params.hasOwnProperty("id")) {
     return companiesModel.get(req.params.id);
   }
@@ -11,7 +12,7 @@ export function get(req: express.Request): companiesModel.ICompany | companiesMo
   return companiesModel.list(req.query.categoryId)
 }
 
-export function put(req: express.Request): companiesModel.ICompany {
+export function put(req: express.Request): db.ICompany {
   const Item = { ...req.body }
   if (!Item.hasOwnProperty("id")) {
     Item.id = uuidv1();
@@ -20,7 +21,7 @@ export function put(req: express.Request): companiesModel.ICompany {
   return companiesModel.update(Item);
 }
 
-export function associateCategory(req: express.Request): companiesModel.ICompany {
+export function associateCategory(req: express.Request): db.ICompany {
   const companyId = req.params.id;
   const categoryId = req.params.categoryId;
 
@@ -35,8 +36,8 @@ export function associateCategory(req: express.Request): companiesModel.ICompany
   }
 
   const categories = typeof company.categories === "undefined" ?
-    [categoryId] :
-    [...company.categories, categoryId];
+    [category] :
+    [...company.categories, category];
 
   const updatedCompany = {
     ...company,

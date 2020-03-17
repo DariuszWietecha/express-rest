@@ -16,4 +16,5 @@ app.use("/categories", categoriesRouter);
 app.use("/companies", companiesRouter);
 app.use("/views", viewsRouter);
 
-app.listen(port, () => console.log(`API listening on port ${port}!`));
+// tslint:disable-next-line:no-console
+app.listen(port, () => console.log(`API is running on http://localhost:${port}`));

@@ -1,24 +1,19 @@
-import { categories } from "../db";
+import * as db from "../db";
 
-export interface ICategory {
-  id: string;
-  name: string;
+export function get(id: string): db.ICategory | undefined {
+  return db.categories.get(id);
 }
 
-export function get(id: string): ICategory | undefined {
-  return categories.get(id);
+export function list():db.ICategory[] {
+  return db.categories.list();
 }
 
-export function list():ICategory[] {
-  return categories.list();
+export function create(Item: db.ICategory): db.ICategory {
+  const campanyId = db.categories.create(Item);
+  return db.categories.get(campanyId);
 }
 
-export function create(Item: ICategory): ICategory {
-  const campanyId = categories.create(Item);
-  return categories.get(campanyId);
-}
-
-export function update(Item: ICategory): ICategory {
-  categories.update(Item);
-  return categories.get(Item.id);
+export function update(Item: db.ICategory): db.ICategory {
+  db.categories.update(Item);
+  return db.categories.get(Item.id);
 }
