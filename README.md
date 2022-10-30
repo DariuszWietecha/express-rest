@@ -15,10 +15,10 @@ Simple REST API which handles two models companies and categories and let to:
 ```
 categories, companies are lists, companies can be filtered by categoryId
 
-The app was deployed on (https://express-rest-100.herokuapp.com/)[https://express-rest-100.herokuapp.com/]
+The app was deployed on [https://express-rest-100.herokuapp.com/](https://express-rest-100.herokuapp.com/)
 
 
-Frontend for it was implemented in [Angular-Jest](https://github.com/DariuszWietecha/angular-jest) and deployed on (https://angular-jest-100.herokuapp.com/)[https://angular-jest-100.herokuapp.com/].
+Frontend for it was implemented in [Angular-Jest](https://github.com/DariuszWietecha/angular-jest) and deployed on [https://angular-jest-100.herokuapp.com/](https://angular-jest-100.herokuapp.com/).
 
 ## Implementation details
 Main used dependencies:
